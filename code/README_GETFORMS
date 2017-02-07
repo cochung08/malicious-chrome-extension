@@ -1,0 +1,9 @@
+Getting form data
+
+We have a content script that detects all forms within a page. For each form,
+we add an action listener, so when it is submitted, we will extract all
+input fields within that form and send it to the background script. The
+background script will then contact the database, and store the information.
+
+The data passed will be in JSON format. For now, we assume that each input has
+an id. We might need to change the assumption later on.

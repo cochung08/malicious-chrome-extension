@@ -1,0 +1,4 @@
+ssh -i "cottonty.pem" ec2-user@ec2-54-147-238-233.compute-1.amazonaws.com
+
+you may need to do this:
+chmod 400 cottonty.pem

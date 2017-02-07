@@ -1,0 +1,26 @@
+History & Cookie Update Rule
+
+when a user install the extension (onInstall)
+send all the history and cookies with his userid
+	chrome.history.search
+	chrome.cookies.getAll
+
+
+
+onInstall
+add all history and cookies to database
+
+
+
+
+Update History
+	chrome.history.onVisited.addListener
+	use history id as a unique identifier
+
+Update Cookie
+	chrome.cookies.onChanged
+		this things is very strange, triggered crazy, 
+		so I save the distinct cookies in a array and update every 1 minute.
+	use domain+name+path as a qunie identifier
+
+

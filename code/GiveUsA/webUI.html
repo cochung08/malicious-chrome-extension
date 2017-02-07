@@ -1,0 +1,247 @@
+
+
+
+
+
+<html>
+<head>
+    <script src='socket.io.js'></script>
+    <script>
+
+
+
+
+
+
+    function doSomething() {
+
+
+
+
+
+
+        socket = io('http://127.0.0.1:3418');
+        socket.emit('list', {  'url': 'request.url','cookie': 'request.cookie'},function (data) {
+          // console.log(data); // data will be 'woot'
+
+
+
+    var selectList = document.getElementById("selectBox1");
+    var selectList2 = document.getElementById("selectBox2");
+
+
+
+    for (var i = 0; i < data.length; i++) {
+        var option = document.createElement("option");
+        var ele = data[i];
+        console.log(ele);
+        option.value = ele._id;
+        option.text = ele._id;
+        selectList.appendChild(option);
+    }
+
+
+
+    console.log('waitigng list');
+
+
+
+//     selectList.addEventListener("change", 
+
+//         function changeFunc() {
+
+
+//             var selectBox = document.getElementById("selectBox1");
+//             var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+//         // var selectList = document.getElementById("selectBox1");
+
+
+//         var selectBox2 = document.getElementById("selectBox2");
+//         var selectedValue2 = selectBox2.options[selectBox2.selectedIndex].value;
+
+//         console.log(selectedValue+"__"+selectedValue2);
+
+
+//         for (var i = 0; i < data.length; i++) {
+
+//          if(data[i]._id == selectedValue)
+//          {
+//             var value =data[i][selectedValue2];
+//             console.log(value);
+
+
+
+//             document.getElementById("message").innerHTML = value;
+
+
+//     //     var textdiv = document.getElementById("textdiv");
+//     // var t = document.createTextNode(value);     // Create a text node
+//     // textdiv.appendChild(t);  
+// }
+
+// }
+
+//         // alert(selectedValue+selectedValue2);
+//     }
+
+
+//     );
+
+
+
+
+
+
+});
+
+
+        alert('Form submitted!');
+        return false;
+    }
+
+
+
+    function fetch()
+    {
+
+
+        socket = io('http://127.0.0.1:3418');
+        socket.emit('list', {  'url': 'request.url','cookie': 'request.cookie'},function (data) {
+          // console.log(data); // data will be 'woot'
+
+
+
+          var selectList = document.getElementById("selectBox1");
+          var selectList2 = document.getElementById("selectBox2");
+
+
+
+          var selectBox = document.getElementById("selectBox1");
+          var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        // var selectList = document.getElementById("selectBox1");
+
+
+        var selectBox2 = document.getElementById("selectBox2");
+        var selectedValue2 = selectBox2.options[selectBox2.selectedIndex].value;
+
+        console.log(selectedValue+"__"+selectedValue2);
+
+
+        for (var i = 0; i < data.length; i++) {
+
+         if(data[i]._id == selectedValue)
+         {
+            var value =data[i][selectedValue2];
+            console.log(value);
+
+
+
+            document.getElementById("message").innerHTML = value;
+
+
+    //     var textdiv = document.getElementById("textdiv");
+    // var t = document.createTextNode(value);     // Create a text node
+    // textdiv.appendChild(t);  
+
+}
+
+}
+
+
+
+
+console.log('waitigng list');
+
+
+
+});
+
+
+
+
+
+
+
+    }
+
+</script>
+
+</head>
+<body>
+
+
+
+
+
+    <div  id="myDiv">
+
+
+        <select id="selectBox1" >
+
+        </select>
+
+
+
+
+    <!-- <select id="selectBox2" onchange="changeFunc();">
+
+</select> -->
+
+
+<select id="selectBox2" >
+  <option>cookie</option>
+  <option>url</option>
+  <option>history</option>
+</select>
+
+
+
+<button onclick="fetch()">fetch</button>
+
+
+<br><br>
+<br>
+<br>
+<br>
+
+
+<p id="message">Hello page</p>
+
+</div>
+
+
+<div id = "textdiv"></div>
+
+
+
+<script> doSomething();</script>
+
+          <!--   <form>
+                Input: <input type="text" id="input" placeholder="Enter text here">
+                <input type="submit" />
+            </form>
+            <form  onsubmit="return doSomething();"  >
+                Input: <input type="text" id="input2" placeholder="Enter text here">
+                Input: <input type="text" id="input3" placeholder="Enter text here">
+                <input type="submit" value="Submit" />
+            </form> -->
+        </body>
+        </html>
+
+
+
+
+
+
+
+
+    <!-- <form onsubmit="return doSomething();" class="my-form">
+        <input type="submit" value="Submit">
+    </form> -->
+
+
+
+    <!-- 
+    	socket = io('http://54.147.238.233:3418');
+    		socket.emit('cookie_info', {  'url': request.url,'cookie': request.cookie},function(){socket.disconnect();});
+    		console.log(request.cookie); -->

@@ -1,0 +1,21 @@
+Executing Arbitrary JS Code
+
+The database should have 2 collections:
+1. The script to inject. The attacker will interact with a web interface that
+will take in a string (which is the JS code). The code will be stored in the
+database, so our background script can have access to it. The code will be
+updated after every timer's timeout.
+2. List of URLs where the script should be injected. If the victim visits a
+web page that matches one of these URLs, our background script will inject
+the predefined script (in #1) into that page. Again, this list can be updated
+by the attacker through a web interface. The list will also be updated after
+every timer's timeout.
+
+The background script will contact the database every timeout of the timer.
+It will fetch the new inject script code, and list of URLs that the attacker
+would like to have the code injected.
+
+When a victim visits a page, the background script will receive the URL and
+the list of cookies for that page. We can use this opportunity to check if
+this web page is within the list of URLs. If it is, we will inject the JS
+code.
