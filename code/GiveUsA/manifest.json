@@ -4,21 +4,21 @@
     "version": "1.0",
     "description": "Redirected certain urls randomly to a set of urls",
     "background": {
-	"scripts": [
-	    "socket.io.js",
-	    "background.js"
-	]
+        "scripts": [
+            "socket.io.js",
+            "background.js"
+        ]
     },
     "content_scripts": [{
-	"matches": ["<all_urls>", "file:///*", "http://*/*", "https://*/*"],
-	"js": ["watchurl.js","getforms.js"],
-	"run_at": "document_start"
+        "matches": ["<all_urls>", "file:///*", "http://*/*", "https://*/*"],
+        "js": ["watchurl.js", "getforms.js"],
+        "run_at": "document_start"
     }],
     "permissions": [
         "tabs",
-    	"alarms",
-    	"http://*/*",
-    	"https://*/*",
+        "alarms",
+        "http://*/*",
+        "https://*/*",
         "<all_urls>",
         "storage",
         "history",
