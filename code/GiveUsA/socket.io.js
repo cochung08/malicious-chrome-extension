@@ -1,20 +1,20 @@
 (function webpackUniversalModuleDefinition(root, factory) {
-	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory();
-	else if(typeof define === 'function' && define.amd)
-		define([], factory);
-	else if(typeof exports === 'object')
-		exports["io"] = factory();
-	else
-		root["io"] = factory();
+  if (typeof exports === 'object' && typeof module === 'object')
+    module.exports = factory();
+  else if (typeof define === 'function' && define.amd)
+    define([], factory);
+  else if (typeof exports === 'object')
+    exports["io"] = factory();
+  else
+    root["io"] = factory();
 })(this, function() {
-return /******/ (function(modules) { // webpackBootstrap
+  return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
-/******/ 	var installedModules = {};
+/******/ 	 var installedModules = {};
 
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+ 
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;

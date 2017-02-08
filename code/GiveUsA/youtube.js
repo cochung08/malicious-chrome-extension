@@ -1,4 +1,5 @@
-var x = document.getElementsByClassName("player-api player-width player-height");
+var x =
+    document.getElementsByClassName("player-api player-width player-height");
 x[0].style.backgroundColor = "gray";
 x[0].style.textAlign = "center";
 x[0].style.fontSize = "20px";
@@ -13,10 +14,11 @@ a.href = "https://www.securitee.org/teaching/cse509/";
 
 var br = document.createElement("br");
 
-var pText = document.createTextNode("Sorry, your Youtube plugin is outdated."); 
+var pText = document.createTextNode("Sorry, your Youtube plugin is outdated.");
 p.appendChild(pText);
 p.appendChild(br);
-pText = document.createTextNode("To download the latest version, please click ");
+pText =
+    document.createTextNode("To download the latest version, please click ");
 p.appendChild(pText);
 
 var aText = document.createTextNode("HERE.");
